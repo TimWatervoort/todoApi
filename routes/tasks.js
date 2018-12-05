@@ -36,8 +36,10 @@ router.post('/', (req, res, next) => {
   knex('tasks')
     .returning('*')
     .insert(newTask)
-    .then(result => {
-      res.send(result);
+    .then(() => {
+      knex('tasks').then(result => {
+        res.send(result);
+      })
     })
     .catch(err => {
       res.status(400).send({
